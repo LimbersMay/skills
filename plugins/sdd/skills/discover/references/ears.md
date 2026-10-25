@@ -47,7 +47,7 @@ Retirado: los avisos se agrupan en uno al día (P-12); lo sustituye AVI-07.
   requisito ocupa su lugar, «lo sustituye <ID>».
 - La trazabilidad los reconoce por la línea `Retirado:`: no cuentan como activos, y un test que cite uno
   es un error, igual que un ID que no existe.
-- Cuándo se retira y cuándo se corrige en el sitio lo dice la skill (Ronda siguiente, paso 4). Después de
+- Cuándo se retira y cuándo se corrige en el sitio lo dice la skill (Ronda siguiente, paso 5). Después de
   aprobado `requirements.md`, cualquier cambio de comportamiento es una retirada.
 
 ## Lista de calidad
@@ -68,7 +68,8 @@ Cada requisito, antes de darlo por redactado:
 5. **Valores concretos o un ajuste con nombre.** «Tras un tiempo» no; «tras el tiempo de “Avisar de
    nuevo tras”» sí. Un valor por defecto se escribe en el requisito del ajuste.
 6. **Sin palabras vagas:** rápido, fácil, intuitivo, adecuado, razonable, normalmente, etc., y/o,
-   si es posible.
+   si es posible, en la medida de lo posible. Tampoco superlativos («el más rápido»), comparativos sin
+   referencia («más claro», ¿que qué?) ni pronombres que no se sabe a qué se refieren («lo», «esto»).
 7. **Con origen.** Una cita del material o una decisión P-nn. Sin origen no se escribe.
 8. **El caso no deseado tiene su requisito.** Por cada requisito por evento que dependa del sistema
    (permisos, red, notificaciones) o de datos guardados, comprueba si hace falta un «SI … ENTONCES».

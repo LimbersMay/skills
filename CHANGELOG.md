@@ -2,6 +2,11 @@
 
 ## Sin publicar
 
+- `discover`, con lo que dice la investigación de `material/investigacion-sdd-requisitos.md`:
+  - cada ronda empieza diciendo con otras palabras lo entendido de cada respuesta;
+  - el cierre depura lo que sobra y comprueba que todo el material está cubierto;
+  - antes de pedir la aprobación, la prueba del diseñador: lo que habría que adivinar para diseñar;
+  - la lista de calidad suma superlativos, comparativos sin referencia y pronombres sin referente.
 - `discover` separa la necesidad de la vista. Las vistas de un mock o un quick design ya no se escriben
   como requisitos: van a «Para sdd-design › ux.md» como hipótesis de interfaz, y la estructura se decide
   al prototipar. Hay regla nueva en el paso 1 y un punto nuevo, «Sin vistas», en la lista de calidad de

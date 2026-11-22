@@ -26,8 +26,8 @@ mucho. La sesión siguiente empieza donde dejó la anterior, leyendo `docs/disco
    - **Con sistema de diseño**, no es un requisito (el aspecto lo da el sistema); anótalo solo si
      contradice algo.
    - **Sin sistema de diseño**, va a «Para sdd-design» como referencia visual, no como requisito.
-4. Lee la conversación actual: si el usuario ya decidió algo en ella («la vista X no va», «solo un
-   grupo»), es una decisión de producto con fecha de hoy. Se registra como P-nn igual que una respuesta.
+4. Lee la conversación actual: si el usuario ya decidió algo en ella («la vista X no va», «solo una
+   lista»), es una decisión de producto con fecha de hoy. Se registra como P-nn igual que una respuesta.
 
 `docs/inbox/` **no se edita nunca**.
 
@@ -44,14 +44,21 @@ Reparte cada sección o bloque del material en su destino. Es la tabla «Mapa» 
 | `requirements.md` | Comportamiento observable: qué hace el producto cuando pasa algo |
 | `domain.md` | Palabras del producto, estados, lo que nunca puede pasar, qué se guarda |
 | `architecture.md` | APIs, permisos, módulos, cómo se implementa algo |
-| `ux.md` | Vistas, wireframes, textos de la interfaz, estados de pantalla |
+| `ux.md` | Vistas, wireframes, textos de la interfaz, estados de pantalla: como hipótesis |
 | Fuera | Lo que el usuario ya descartó o que el material marca como extra |
 
 Lo que va a `domain.md`, `architecture.md` y `ux.md` **no se redacta aquí**: se anota en la sección «Para
 sdd-design» de `discovery.md` con su referencia al material, y lo redacta `/sdd:design`.
 
-Separa siempre el **qué** del **cómo**. «Las pestañas pausadas liberan memoria» es un requisito;
-«se llama a `chrome.tabs.discard`» es arquitectura. Un mismo párrafo suele tener las dos cosas.
+Separa siempre el **qué** del **cómo**. Los ejemplos son de Regadera, un producto inventado (una app
+que avisa cuándo toca regar cada planta):
+
+- **De la implementación.** «Regadera avisa cuando toca regar una planta» es un requisito; «se programa
+  una notificación local» es arquitectura. Un mismo párrafo suele tener las dos cosas.
+- **De la vista.** «Regadera muestra las plantas que toca regar hoy» es un requisito; «hay una pestaña
+  Hoy en la barra inferior» es una **hipótesis de interfaz**. Un mock trae muchas: van a «Para
+  sdd-design › ux.md» con su sitio en el mock y la necesidad que cubren, y el requisito dice solo la
+  necesidad. La estructura de vistas se decide al prototipar y probar, no en el descubrimiento.
 
 ### 2. Contradicciones
 
@@ -61,8 +68,8 @@ citadas. No elijas una versión: pregunta.
 
 Las diferencias que ya resuelve el sistema de diseño no se preguntan; se anotan con su motivo: el
 nombre o el tamaño de ventana que traiga un mock frente a los que fija el sistema para el producto, o un
-estilo visual frente al del sistema. En ReDesign, por ejemplo, los fija
-`node_modules/re-design/docs/products/<slug>.md`.
+estilo visual frente al del sistema. Dónde los fija lo dice el `AGENTS.md`, en la pieza «Sistema de
+diseño».
 
 ### 3. Huecos (MECE)
 
@@ -91,7 +98,7 @@ interpretación o de una decisión P-nn ya registrada:
   el material» para lo descartado), restricciones y la tabla de decisiones.
 - `requirements.md`: un requisito por comportamiento, en EARS, con las reglas de
   [references/ears.md](references/ears.md). Agrupa por área con un prefijo de tres letras
-  (`PAU`, `BAU`…), y añade cada prefijo a la tabla «Áreas». `Origen` dice de dónde sale: `inbox §3`,
+  (`RIE`, `AVI`…), y añade cada prefijo a la tabla «Áreas». `Origen` dice de dónde sale: `inbox §3`,
   `mock › Ajustes`, `P-04`.
 - Un requisito que depende de un hueco abierto **no se escribe**. En `discovery.md` queda la lista de
   requisitos que esperan a cada hueco.
@@ -105,24 +112,25 @@ Elige **hasta tres** huecos Bloquea, los de más impacto primero (los que desblo
 cambian el alcance). Cada pregunta, en el chat, con esta forma:
 
 ```markdown
-**H-03 · Cuándo empieza a contar T2** (Tiempo)
-El material dice «relativo al momento de ingreso a pausa o tiempo total de inactividad» (inbox §2, Fase 2):
-son dos reglas distintas.
-- **A. Desde que entra en pausa.** Con T1 = 15 min y T2 = 2 h, una pestaña llega al baúl a las 2 h 15 min.
-- **B. Inactividad total.** La misma pestaña llega a las 2 h.
-Recomiendo **A**: el ajuste «Mover al baúl tras» se lee como el tiempo que pasa en pausa, y así
-cambiar T1 no acorta la vida en pausa.
-Cambia: PAU-04, BAU-01.
+**H-03 · Desde cuándo se cuentan los días de riego** (Tiempo)
+El material dice «cada planta tiene su frecuencia, por ejemplo cada 3 días» (inbox §2, Avisos): no dice
+desde cuándo se cuentan.
+- **A. Desde el último riego.** Si toca regar el lunes y se riega el martes, el siguiente aviso llega el viernes.
+- **B. En días fijos.** La misma planta vuelve a avisar el jueves, aunque se regara con un día de retraso.
+Recomiendo **A**: «cada 3 días» se lee como el tiempo entre dos riegos, y así un riego atrasado no
+hace que la planta se riegue dos veces casi seguidas.
+Cambia: RIE-02, AVI-01.
 ```
 
 Reglas de las preguntas:
 
 - Una pregunta, una decisión. Si la respuesta abre otra pregunta, va en la ronda siguiente.
-- Cada opción con un **ejemplo concreto** (valores, una pestaña, un caso) que muestre la diferencia. Sin
+- Cada opción con un **ejemplo concreto** (valores, un elemento, un caso) que muestre la diferencia. Sin
   ejemplo, la opción no se entiende.
 - Siempre una recomendación con su motivo, y siempre la posibilidad de una respuesta distinta.
 - No preguntes lo que el material ya responde ni lo que es de diseño visual (lo resuelve el sistema de
-  diseño o, si no hay, la fase de diseño).
+  diseño o, si no hay, la fase de diseño). Tampoco cómo se reparte en vistas: lo decide la fase de
+  interfaz al prototipar.
 - Si hay Propuestas nuevas, lístalas después de las preguntas en una tabla corta
   (`H-nn · propuesta · requisito que desbloquea`) y pide un «OK a las propuestas» o los vetos.
 - **Doce Propuestas por ronda como mucho**, las que desbloquean más requisitos primero. Un «OK» en bloque
@@ -139,8 +147,12 @@ viene después.
    respuesta en sus palabras (resumida si hace falta, sin cambiarle el sentido), fecha y los requisitos
    que afecta. Las Propuestas aceptadas en bloque se registran una por una, con «Propuesta aceptada» en
    la respuesta. Si una respuesta no es clara, **no la interpretes**: repregunta en esta ronda.
-3. Marca el hueco como resuelto en `discovery.md` con su P-nn.
-4. Si una respuesta toca algo ya redactado, decide entre corregir y retirar:
+3. **Di lo que entendiste.** Al principio de tu mensaje, antes de las preguntas nuevas, una línea por
+   respuesta con tus palabras, no con las suyas, y lo que cambia: «H-03: los días se cuentan desde el
+   último riego → RIE-02, AVI-01». Repetirlo con otras palabras es lo que destapa un malentendido que
+   ninguno de los dos ha notado. Si el usuario corrige una línea, corrige su P-nn en la ronda siguiente.
+4. Marca el hueco como resuelto en `discovery.md` con su P-nn.
+5. Si una respuesta toca algo ya redactado, decide entre corregir y retirar:
    - **Se corrige en el sitio** si el comportamiento sigue siendo el mismo y solo se precisa: un valor,
      una palabra, una condición que faltaba. `Origen` suma la P-nn.
    - **Se retira** si el comportamiento cambia o desaparece: el requisito se queda con su ID, el título y
@@ -149,8 +161,8 @@ viene después.
      El formato está en [references/ears.md](references/ears.md#requisitos-retirados).
 
    Las dos cosas se dicen en el resumen, con los IDs.
-5. Si llegó material nuevo a `docs/inbox/`, pásale los pasos 1 a 3 solo a lo nuevo.
-6. Redacta los requisitos que se han desbloqueado y vuelve a [La ronda de preguntas](#5-la-ronda-de-preguntas).
+6. Si llegó material nuevo a `docs/inbox/`, pásale los pasos 1 a 3 de la primera ronda solo a lo nuevo.
+7. Redacta los requisitos que se han desbloqueado y vuelve a [La ronda de preguntas](#5-la-ronda-de-preguntas).
 
 ## Cuándo termina
 
@@ -162,15 +174,23 @@ Must del alcance tiene sus requisitos. Entonces:
    - **Se corrige sin preguntar** lo que no cambia el comportamiento: una palabra vaga, dos acciones en un
      requisito que se parten en dos, un origen que faltaba.
    - **Propuestas de cierre** para lo que sí lo cambia: casi siempre un «SI … ENTONCES» que falta (punto
-     7) o un valor sin decidir (punto 4). Cada una es un hueco nuevo (`H-nn`, clase Propuesta) con su
+     8) o un valor sin decidir (punto 5). Cada una es un hueco nuevo (`H-nn`, clase Propuesta) con su
      redacción propuesta.
-2. **Ronda de cierre.** Si hay Propuestas de cierre, preséntalas como una ronda más (sin preguntas
+2. **Depurar y cubrir.** Sobra lo que no hace falta: el requisito de algo obvio, el que repite a otro,
+   la función «por si acaso» que nadie pidió. Cada uno es una Propuesta de cierre para retirarlo. Y en
+   el otro sentido: cada fila del Mapa con destino `requirements.md` tiene al menos un requisito, o
+   pasa a «Fuera» con su motivo. Lo que no tiene ninguna de las dos cosas es un hueco Bloquea.
+3. **Prueba del diseñador.** Lee solo `product.md` y `requirements.md`, como si fueras a diseñar los
+   flujos principales sin el material ni la conversación, y apunta todo lo que tendrías que adivinar.
+   Cada cosa es un hueco: Bloquea si cambia el alcance o un Must, Propuesta de cierre si no. La lista
+   tiene que salir vacía para pedir la aprobación.
+4. **Ronda de cierre.** Si hay Propuestas de cierre, preséntalas como una ronda más (sin preguntas
    nuevas, con el mismo tope de doce) y registra las respuestas como en la ronda siguiente. Una
    Propuesta de cierre vetada vuelve a ser un hueco Bloquea: el descubrimiento sigue.
-3. **Aprobación.** Con todo respondido, `discovery.md` dice «Estado: cierre» y pides al usuario que
+5. **Aprobación.** Con todo respondido, `discovery.md` dice «Estado: cierre» y pides al usuario que
    apruebe `product.md` y `requirements.md`. Con su OK explícito, quita el marcador
    `<!-- sdd:pendiente -->` de los dos y escribe «Cerrado» con la fecha al principio de `discovery.md`.
-4. Siguiente paso: `/sdd:design` (dominio, arquitectura, interfaz y spikes).
+6. Siguiente paso: `/sdd:design` (dominio, arquitectura, interfaz y spikes).
 
 ## Lo que nunca haces
 
